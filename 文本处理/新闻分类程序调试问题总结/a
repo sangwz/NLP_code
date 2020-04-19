@@ -1,0 +1,21 @@
+"D:\Program Files\study_work\python.exe" C:/Users/sang/Contacts/Desktop/NLP基础阶段学习内容汇总/文本处理/singapore.py
+120000lines [00:04, 29486.20lines/s]
+120000lines [00:07, 17102.24lines/s]
+7600lines [00:00, 15941.22lines/s]
+<class 'torch.utils.data.dataset.Subset'>
+Traceback (most recent call last):
+  File "C:/Users/sang/Contacts/Desktop/NLP基础阶段学习内容汇总/文本处理/singapore.py", line 197, in <module>
+    valid_loss, valid_acc = valid(sub_valid_)
+  File "C:/Users/sang/Contacts/Desktop/NLP基础阶段学习内容汇总/文本处理/singapore.py", line 177, in valid
+    loss = criterion(output,cls)
+  File "D:\Program Files\study_work\lib\site-packages\torch\nn\modules\module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "D:\Program Files\study_work\lib\site-packages\torch\nn\modules\loss.py", line 916, in forward
+    ignore_index=self.ignore_index, reduction=self.reduction)
+  File "D:\Program Files\study_work\lib\site-packages\torch\nn\functional.py", line 1995, in cross_entropy
+    return nll_loss(log_softmax(input, 1), target, weight, None, ignore_index, None, reduction)
+  File "D:\Program Files\study_work\lib\site-packages\torch\nn\functional.py", line 1822, in nll_loss
+    .format(input.size(0), target.size(0)))
+ValueError: Expected input batch_size (128) to match target batch_size (64).
+
+Process finished with exit code 1
