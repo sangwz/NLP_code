@@ -104,7 +104,7 @@ def normalizeString(s):
     # 去除
     s = unicodeToAscii(s.lower().strip())
     # 在.!?前加一个空格
-    s = re.sub(r'([.!？])+', r' \1', s)
+    s = re.sub(r'([.!？])', r' \1', s)
     # 使用正则表达式将字符串中不是大小写字符和正常标点的都替换成空格
     s = re.sub(r'[^a-zA-Z.!?]+', r' ', s)
     return s
@@ -178,9 +178,12 @@ def filterPair(p):
     :return: 返回bool值，如果输入符合过滤条件，True
     '''
     # print('p[0]------',p[0])
-    result_bool = len(p[0].split(' ')) < MAX_LENGTH and p[0].startswith(eng_prefixes) \
-                  and len(p[1].split(' ')) < MAX_LENGTH
+    # result_bool = len(p[0].split(' ')) < MAX_LENGTH and p[0].startswith(eng_prefixes) \
+    #               and len(p[1].split(' ')) < MAX_LENGTH
     # print(result_bool)
+    result_bool = len(p[0].split(' ')) < MAX_LENGTH and \
+        p[0].startswith(eng_prefixes) and \
+        len(p[1].split(' ')) < MAX_LENGTH
     return result_bool
 
 
@@ -231,6 +234,8 @@ def prepareData(lang1, lang2):
 # 得到的结果：pairs是一个二维张量，内部一维张量是各个语言对
 '''
 input_lang, output_lang, pairs = prepareData('eng', 'fra')
+print("input_n_words:", input_lang.n_words)
+print("output_n_words:", output_lang.n_words)
 # ------------------------------------------------
 # 测试
 # print("input_n_words:", input_lang.n_words)
@@ -275,10 +280,10 @@ def tensorsFromPair(pair):
 
 # -----------------------------------
 # 测试代码
-pair = pairs[0]
-print(pair)
-pair_tensor = tensorsFromPair(pair)
-print(pair_tensor)
+# pair = pairs[0]
+# print(pair)
+# pair_tensor = tensorsFromPair(pair)
+# print(pair_tensor)
 
 # --------------------------------------
 
@@ -328,11 +333,11 @@ class EncoderRNN(nn.Module):
 
 # ---------------------------------------------------------------
 # 测试代码
-input_ = pair_tensor[0][0].to(device)
-hidden = torch.zeros(1, 1, hidden_size).to(device)
-encoder = EncoderRNN(input_size, hidden_size)
-encoder_output, hidden = encoder(input_, hidden)
-print(encoder_output)
+# input_ = pair_tensor[0][0].to(device)
+# hidden = torch.zeros(1, 1, hidden_size).to(device)
+# encoder = EncoderRNN(input_size, hidden_size)
+# encoder_output, hidden = encoder(input_, hidden)
+# print(encoder_output)
 # --------------------------------------------------------------
 
 '''
@@ -578,7 +583,7 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
             # 只使用正确答案，即target_tensor[di]来计算损失
             loss += criterion(decoder_output, target_tensor[di])
             # 并强制将下次的解码器输入设置为正确答案
-            decoder_inout = target_tensor[di]
+            decoder_input = target_tensor[di]
 
     else:
         # 如果不使用teacher_forcing
@@ -666,7 +671,7 @@ def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lear
         input_tensor = training_pair[0]
         target_tensor = training_pair[1]
         # 通过train获得模型运行的损失
-        loss = train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer,criterion)
+        loss = train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer, criterion)
         # 损失进行累计
         print_loss_total += loss
         plot_loss_total += loss
@@ -692,6 +697,7 @@ def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lear
     # 绘制损失曲线
     plt.figure()
     plt.plot(plot_losses)
+    plt.show()
     # 保存到指定路径
     plt.savefig("./s2s_loss.png")
 
@@ -724,6 +730,7 @@ trainIters(encoder1, attn_decoder1, n_iters, print_every=print_every)
 ==================================第五步， 构建模型评估函数，并进行测试以及Attention效果分析===================================
 
 '''
+
 def evaluate(encoder, decoder, sentence, max_length = MAX_LENGTH):
     """
     模型评估函数
@@ -785,6 +792,7 @@ def evaluate(encoder, decoder, sentence, max_length = MAX_LENGTH):
             decoder_input = topi.squeeze().detach()
         # 返回结果decoded_words， 以及完整注意力张量, 把没有用到的部分切掉
         return decoded_words, decoder_attentions[:di + 1]
+
 
 '''
 随机选择指定数量的数据进行评估：
