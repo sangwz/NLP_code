@@ -26,8 +26,8 @@ EOS_token = 1
 
 # --------------------------------------------------------
 # 实例化参数，
-hidden_size = 25
-input_size = 20
+# hidden_size = 25
+# input_size = 20
 # --------------------------------------------------------
 '''
 这段代码是为了将训练集中的单词语料添加到字典中，构成单词-索引，索引-单词两种形式的字典
@@ -275,10 +275,10 @@ def tensorsFromPair(pair):
 
 # -----------------------------------
 # 测试代码
-pair = pairs[0]
-print(pair)
-pair_tensor = tensorsFromPair(pair)
-print(pair_tensor)
+# pair = pairs[0]
+# print(pair)
+# pair_tensor = tensorsFromPair(pair)
+# print(pair_tensor)
 
 # --------------------------------------
 
@@ -328,11 +328,11 @@ class EncoderRNN(nn.Module):
 
 # ---------------------------------------------------------------
 # 测试代码
-input_ = pair_tensor[0][0].to(device)
-hidden = torch.zeros(1, 1, hidden_size).to(device)
-encoder = EncoderRNN(input_size, hidden_size)
-encoder_output, hidden = encoder(input_, hidden)
-print(encoder_output)
+# input_ = pair_tensor[0][0].to(device)
+# hidden = torch.zeros(1, 1, hidden_size).to(device)
+# encoder = EncoderRNN(input_size, hidden_size)
+# encoder_output, hidden = encoder(input_, hidden)
+# print(encoder_output)
 # --------------------------------------------------------------
 
 '''
