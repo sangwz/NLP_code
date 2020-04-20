@@ -12,8 +12,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 # 导入优化方法的工具包
 from torch import optim
-import time
-import math
 # 设备的选择, 可以选择在GPU上运行或者在CPU上运行
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -159,7 +157,7 @@ def prepareData(lang1, lang2):
     return input_lang, output_lang, pairs
 
 
-input_lang, output_lang, pairs = prepareData('eng', 'fra')
+# input_lang, output_lang, pairs = prepareData('eng', 'fra')
 # print("input_lang words:", input_lang.n_words)
 # print("output_lang words:", output_lang.n_words)
 # print(random.choice(pairs))
@@ -526,16 +524,16 @@ def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lear
     plt.savefig("./s2s_loss.png")
 
 
-hidden_size = 256
-encoder1 = EncoderRNN(input_lang.n_words, hidden_size).to(device)
-#
-attn_decoder1 = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)
-#
-n_iters = 75000
-print_every = 500
+# hidden_size = 256
+# encoder1 = EncoderRNN(input_lang.n_words, hidden_size).to(device)
 
-if __name__ == '__main__':
-    trainIters(encoder1, attn_decoder1, n_iters, print_every=print_every)
+# attn_decoder1 = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)
+
+# n_iters = 5000
+# print_every = 500
+
+# if __name__ == '__main__':
+#     trainIters(encoder1, attn_decoder1, n_iters, print_every=print_every)
 
 
 def evaluate(encoder, decoder, sentence, max_length=MAX_LENGTH):
@@ -612,12 +610,12 @@ def evaluateRandomly(encoder, decoder, n=6):
 #     evaluateRandomly(encoder1, attn_decoder1)
 
 
-# sentence = "we re both teachers ."
-# output_words, attention = evaluate(encoder1, attn_decoder1, sentence)
-# print(output_words)
-# plt.figure()
-# plt.matshow(attention.numpy())
-# plt.savefig("./s2s_attn.png")
+sentence = "we re both teachers ."
+output_words, attention = evaluate(encoder1, attn_decoder1, sentence)
+print(output_words)
+plt.figure()
+plt.matshow(attention.numpy())
+plt.savefig("./s2s_attn.png")
 
 
 
