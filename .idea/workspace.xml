@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="880afcbd-6378-4bca-a37b-aaea0ba7257f" name="Default Changelist" comment="添加课件源代码">
+      <change afterPath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/s2s_loss.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/seq2seq-batch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/bug调试总结文档.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/bug调试总结文档.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/seq2seq.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/seq2seq.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1anfXpwjlTA7x65U8EBIo0RSSPS" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/RNN/RNN经典案例2_英译法" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Git\NLP_code\RNN\RNN经典案例2_英译法" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="seq2seq" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="NLP_code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/RNN/RNN经典案例2_英译法" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/seq2seq.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.seq2seq" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="880afcbd-6378-4bca-a37b-aaea0ba7257f" name="Default Changelist" comment="" />
+      <created>1587376320976</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587376320976</updated>
+      <workItem from="1587376322775" duration="3512000" />
+    </task>
+    <task id="LOCAL-00001" summary="代码修正">
+      <created>1587376535386</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1587376535386</updated>
+    </task>
+    <task id="LOCAL-00002" summary="添加课件源代码">
+      <created>1587380065386</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1587380065386</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="代码修正" />
+    <MESSAGE value="添加课件源代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加课件源代码" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="560" y="113" key="CommitChangelistDialog2" timestamp="1587384337109">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="560" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587384337109" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1587384339402">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587384339402" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1587384339401">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587384339401" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1587384339401">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587384339401" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1587384339402">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587384339402" />
+    <state x="316" y="323" key="SettingsEditor" timestamp="1587376371252">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="316" y="323" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1587376371252" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1587376544586">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1587376544586" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/NLP_code$seq2seq.coverage" NAME="seq2seq Coverage Results" MODIFIED="1587381876957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RNN/RNN经典案例2_英译法" />
+  </component>
+</project>
