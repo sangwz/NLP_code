@@ -1,148 +1,98 @@
-# 从io中导入文件打开方法
-'''
-隐层64，学习率0.001，100万批次
-'''
 from io import open
-# 帮助使用正则表达式进行子目录的查询
 import glob
 import os
-# 用于获得常见字母及字符规范化
 import string
 import unicodedata
-# 导入随机工具random
 import random
-# 导入时间和数学工具包
 import time
 import math
-# 导入torch工具
 import torch
-# 导入nn准备构建模型
 import torch.nn as nn
-# 引入制图工具包
 import matplotlib.pyplot as plt
 
-# 获取所有常用字符包括字母和常用标点
-all_letters = string.ascii_letters + " .,;'"
 
-# 获取常用字符数量
+# 设置训练迭代次数
+n_iters =500000
+# 设置结果的打印间隔
+print_every = 100000
+# 设置绘制损失曲线上的制图间隔
+plot_every = 50000
+# 定义隐层的最后一维尺寸大小
+n_hidden = 64
+
+all_letters = string.ascii_letters + ".,;"
 n_letters = len(all_letters)
 
-# print("n_letter:", n_letters)
 
-
-'''字符串转换函数
-'''
-# 关于编码问题我们暂且不去考虑
-# 我们认为这个函数的作用就是去掉一些语言中的重音标记
-# 如: Ślusàrski ---> Slusarski
 def unicodeToAscii(s):
-    return ''.join(
-        c for c in unicodedata.normalize('NFD', s)
-        if unicodedata.category(c) != 'Mn'
-        and c in all_letters
-    )
+    return ''.join(c for c in unicodedata.normalize('NFD',s)
+                    if unicodedata.category(c) != 'Mn'
+                    and c in all_letters)
 
-'''数据读取函数'''
 
-data_path = "./data/names/"
-
+# 构建一个从持久化文件中读取内容到内存的函数
+data_path = '../data/names/'
 def readLines(filename):
-    """从文件中读取每一行加载到内存中形成列表"""
-    # 打开指定文件并读取所有内容, 使用strip()去除两侧空白符, 然后以'\n'进行切分
-    lines = open(filename, encoding='utf-8').read().strip().split('\n')
-    # 对应每一个lines列表中的名字进行Ascii转换, 使其规范化.最后返回一个名字列表
+    # 打开指定的文件并读取所有内容，使用strip去除两侧的空白符，然后，以‘、n’进行切分
+    lines = open(filename,encoding='utf-8').read().strip().split('\n')
     return [unicodeToAscii(line) for line in lines]
 
-'''构建人名存储'''
+# 构建人名类别列表与人名对应关系字典
+category_liens = {}
 
-# 构建的category_lines形如：{"English":["Lily", "Susan", "Kobe"], "Chinese":["Zhang San", "Xiao Ming"]}
-category_lines = {}
-
-# all_categories形如： ["English",...,"Chinese"]
+# 构建所有类别的列表
 all_categories = []
 
-# 读取指定路径下的txt文件， 使用glob，path中可以使用正则表达式
-for filename in glob.glob(data_path + '*.txt'):
-    # 获取每个文件的文件名, 就是对应的名字类别
-    category = os.path.splitext(os.path.basename(filename))[0]
-    # 将其逐一装到all_categories列表中
+# 遍历所有文件，使用glob.glob中利用正则表达式的遍历
+for filename in glob.glob((data_path + "*.txt")):
+    category = os.path.splitext((os.path.basename(filename)))[0]
+    # 逐一将其装入所有类别的列表中
     all_categories.append(category)
-    # 然后读取每个文件的内容，形成名字列表
+    # 读取文件内容，行成名字列表
     lines = readLines(filename)
     # 按照对应的类别，将名字列表写入到category_lines字典中
-    category_lines[category] = lines
+    category_liens[category] = lines
+
 n_categories = len(all_categories)
+# print("n_categories:",n_categories)
 
-'''人名准换成tensorflow'''
-# 将字符串(单词粒度)转化为张量表示，如："ab" --->
-# tensor([[[1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-#          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-#          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-#          0., 0., 0., 0., 0., 0.]],
-
-#        [[0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-#          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-#          0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-#          0., 0., 0., 0., 0., 0.]]])
+#
 def lineToTensor(line):
-    """将人名转化为对应onehot张量表示, 参数line是输入的人名"""
-    # 首先初始化一个0张量, 它的形状(len(line), 1, n_letters)
-    # 代表人名中的每个字母用一个1 x n_letters的张量表示.
+    # 首先要初始化一个全零的张量，形状是len(line),1,n_letters
+    # 代表人名中的每一个字母都用一个（1*n_letters）张量表示
     tensor = torch.zeros(len(line), 1, n_letters)
-    # 遍历这个人名中的每个字符索引和字符
+    # 遍历每个人名中的每个字符，搜索其对应的索引，将索引位置1
     for li, letter in enumerate(line):
-        # 使用字符串方法find找到每个字符在all_letters中的索引
-        # 它也是我们生成onehot张量中1的索引位置
         tensor[li][0][all_letters.find(letter)] = 1
-    # 返回结果
     return tensor
-
-
-# # 查看类别总数
-# n_categories = len(all_categories)
-# print("n_categories:", n_categories)
-
-# 随便查看其中的一些内容
-# print(category_lines['Italian'][:5])
-
-'''构建RNN模型'''
-
-# 使用nn.RNN构建完成传统RNN使用类
 
 class RNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, num_layers=1):
-        """初始化函数中有4个参数, 分别代表RNN输入最后一维尺寸, RNN的隐层最后一维尺寸, RNN层数"""
         super(RNN, self).__init__()
-        # 将hidden_size与num_layers传入其中
+        self.input_size = input_size
         self.hidden_size = hidden_size
+        self.output_size = output_size
         self.num_layers = num_layers
 
-        # 实例化预定义的nn.RNN, 它的三个参数分别是input_size, hidden_size, num_layers
-        self.rnn = nn.RNN(input_size, hidden_size, num_layers)
-        # 实例化nn.Linear, 这个线性层用于将nn.RNN的输出维度转化为指定的输出维度
-        self.linear = nn.Linear(hidden_size, output_size)
-        # 实例化nn中预定的Softmax层, 用于从输出层获得类别结果
-        self.softmax = nn.Softmax(dim=-1)
+        self.rnn = nn.RNN(input_size,hidden_size,num_layers)
+        # 实例化全连接层，作用是将RNN的输出维度转换成指定的输出维度
+        self.linear = nn.Linear(hidden_size,output_size)
+        # softmax作用：输出层中获取类别结果
+        self.softmax = nn.LogSoftmax(dim = -1)
 
-
-    def forward(self, input, hidden):
-        """完成传统RNN中的主要逻辑, 输入参数input代表输入张量, 它的形状是1 x n_letters
-           hidden代表RNN的隐层张量, 它的形状是self.num_layers x 1 x self.hidden_size"""
-        # 因为预定义的nn.RNN要求输入维度一定是三维张量, 因此在这里使用unsqueeze(0)扩展一个维度
-        input = input.unsqueeze(0)
-        # 将input和hidden输入到传统RNN的实例化对象中，如果num_layers=1, rr恒等于hn
-        rr, hn = self.rnn(input, hidden)
-        # 将从RNN中获得的结果通过线性变换和softmax返回，同时返回hn作为后续RNN的输入
+    def forward(self,input1, hidden):
+        # input嗲表人名分类器中的输入张量，1 n_letter
+        # hidden 隐藏层张量，相撞numlayers*1*self.hidden_size
+        # 注意： 输入到rnn中的张量是三维张量，所以用unsqueeze()函数扩充维度
+        input1 = input1.unsqueeze(0)
+        # 将input1和hidden输入到RNN实例化对象中，如果num_layers = 1，rr=hn
+        rr, hn = self.rnn(input1, hidden)
+        # 将从rnn中获取的结果，通过线性层变换和softmax层的处理，最终返回结果
         return self.softmax(self.linear(rr)), hn
 
-
     def initHidden(self):
-        """初始化隐层张量"""
-        # 初始化一个（self.num_layers, 1, self.hidden_size）形状的0张量
-        return torch.zeros(self.num_layers, 1, self.hidden_size)
-
-'''LSTM'''
-# 使用nn.LSTM构建完成LSTM使用类
+        # 本函数的作用，用来初始化一个全零的隐藏层张量，维度是3
+        return torch.zeros(self.num_layers, 1,  self.hidden_size)
 
 class LSTM(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, num_layers=1):
@@ -174,12 +124,6 @@ class LSTM(nn.Module):
         c = hidden = torch.zeros(self.num_layers, 1, self.hidden_size)
         return hidden, c
 
-'''GRU'''
-# 使用nn.GRU构建完成传统RNN使用类
-
-# GRU与传统RNN的外部形式相同, 都是只传递隐层张量, 因此只需要更改预定义层的名字
-
-
 class GRU(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, num_layers=1):
         super(GRU, self).__init__()
@@ -199,65 +143,105 @@ class GRU(nn.Module):
     def initHidden(self):
         return torch.zeros(self.num_layers, 1, self.hidden_size)
 
-
-'''实例化参数'''
-# 因为是onehot编码, 输入张量最后一维的尺寸就是n_letters
+#因为是onehot编码, 输入张量最后一维的尺寸就是n_letters
 input_size = n_letters
 
-# 定义隐层的最后一维尺寸大小
-n_hidden =64
+
 
 # 输出尺寸为语言类别总数n_categories
 output_size = n_categories
 
 # num_layer使用默认值, num_layers = 1
+input = lineToTensor('B').squeeze(0)
 
+# 初始化一个三维的隐层0张量, 也是初始的细胞状态张量
+hidden = c = torch.zeros(1, 1, n_hidden)
 rnn = RNN(n_letters, n_hidden, n_categories)
 lstm = LSTM(n_letters, n_hidden, n_categories)
 gru = GRU(n_letters, n_hidden, n_categories)
-# rnn_output, next_hidden = rnn(input, hidden)
+
+rnn_output, next_hidden = rnn(input, hidden)
 # print("rnn:", rnn_output)
-# lstm_output, next_hidden, c = lstm(input, hidden, c)
+lstm_output, next_hidden, c = lstm(input, hidden, c)
 # print("lstm:", lstm_output)
-# gru_output, next_hidden = gru(input, hidden)
+gru_output, next_hidden = gru(input, hidden)
 # print("gru:", gru_output)
 
 
-'''从输出结果中获得指定类别函数:'''
+# 第四步：构建训练函数并进行训练
+# 从输出结果中获取指定类别函数
 def categoryFromOutput(output):
-    """从输出结果中获得指定类别, 参数为输出张量output"""
-    # 从输出张量中返回最大的值和索引对象, 我们这里主要需要这个索引
-    top_n, top_i = output.topk(1)
-    # top_i对象中取出索引的值
-    category_i = top_i[0].item()
-    # 根据索引值获得对应语言类别, 返回语言类别和索引值
+    """
+    从输出结果中获得指定类别，参数为输出张量output
+    :param output:
+    :return:
+    """
+    # 从输出张量中获取最大的值和索引对象，
+    # print("output------>",output,output.shape)
+    # print("output[0]",output[0])
+    top_n, top_i = output.topk(3)
+    # print("top_n",top_n)
+    # print("top_i",top_i)
+    # top_i 为获得的索引值
+    # category_i = top_i[0,0,0].item()
+    category_i = top_i[0][0][0].item()
+    # category_i = top_i[0].item()
+
+    # todo: 课件中是这样写的：category_i = top_i[0].item()
+    # top_n tensor([[[-2.8131]]], grad_fn=<TopkBackward>)
+    # top_i tensor([[[14]]])，top_i[0]还是top_i[0,0,0]
+    # print("category_i--------->",category_i)
+    # 根据索引值获得对应语言类别，返回语言类别和索引值
+    print()
     return all_categories[category_i], category_i
 
+output = gru_output
+
+category, category_i = categoryFromOutput(output)
+# print("category:", category)
+# print("category_i:", category_i)
+
+# 随机生成训练数据
 def randomTrainingExample():
-    """该函数用于随机产生训练数据"""
-    # 首先使用random的choice方法从all_categories随机选择一个类别
+    """
+    该函数用于随机生成训练数据
+    :return:
+    """
     category = random.choice(all_categories)
-    # 然后在通过category_lines字典取category类别对应的名字列表
-    # 之后再从列表中随机取一个名字
-    line = random.choice(category_lines[category])
-    # 接着将这个类别在所有类别列表中的索引封装成tensor, 得到类别张量category_tensor
+    line = random.choice(category_liens[category])
     category_tensor = torch.tensor([all_categories.index(category)], dtype=torch.long)
-    # 最后, 将随机取到的名字通过函数lineToTensor转化为onehot张量表示
     line_tensor = lineToTensor(line)
     return category, line, category_tensor, line_tensor
 
+criterion = nn.NLLLoss()
+learning_rate = 0.001
 
-# 定义损失函数为nn.NLLLoss，因为RNN的最后一层是nn.LogSoftmax, 两者的内部计算逻辑正好能够吻合.
-criterion = nn.CrossEntropyLoss()
-
-# 设置学习率为0.005
-learning_rate = 0.01
-
-
-
-# num_layer使用默认值, num_layers = 1
-
-
+# def trainRNN(category_tensor, line_tensor):
+#     """
+#     定义训练函数，它的两个参数是category_tensor类别的张量表示，相当于训练数据的标签
+#     line_tensor 名字的张量表示，相当于对应训练数据
+#     :param category_tensor:
+#     :param line_tensor:
+#     :return:
+#     """
+#     # 在函数中，首先通过实例化对象rnn初始化隐层张量
+#     hidden = rnn.initHidden()
+#
+#     # 梯度归零
+#     rnn.zero_grad()
+#     # print("line_tensor: ------->", line_tensor)
+#     # 开始训练，将数据line_tensor的每个字符逐个传入rnn之中，得到最终的结果
+#     for i in range(line_tensor.size()[0]):
+#         output, hidden = rnn(line_tensor[i], hidden)
+#
+#     loss = criterion(output.squeeze(0), category_tensor)
+#
+#     loss.backward()
+#     for p in rnn.parameters():
+#         p.data.add_(-learning_rate, p.grad.data)
+#
+#     return output, loss.item()
+optimizer1 = torch.optim.Adam(rnn.parameters(), lr = 0.001)
 def trainRNN(category_tensor, line_tensor):
     """定义训练函数, 它的两个参数是category_tensor类别的张量表示, 相当于训练数据的标签,
        line_tensor名字的张量表示, 相当于对应训练数据"""
@@ -266,8 +250,8 @@ def trainRNN(category_tensor, line_tensor):
     hidden = rnn.initHidden()
 
     # 然后将模型结构中的梯度归0
-    rnn.zero_grad()
-
+    # rnn.zero_grad()
+    optimizer1.zero_grad()
     # 下面开始进行训练, 将训练数据line_tensor的每个字符逐个传入rnn之中, 得到最终结果
     for i in range(line_tensor.size()[0]):
         output, hidden = rnn(line_tensor[i], hidden)
@@ -279,49 +263,76 @@ def trainRNN(category_tensor, line_tensor):
     # 损失进行反向传播
     loss.backward()
     # 更新模型中所有的参数
-    for p in rnn.parameters():
-        # 将参数的张量表示与参数的梯度乘以学习率的结果相加以此来更新参数
-        # print("*"*20)
-        # print("参数：",p)
-        p.data.add_(-learning_rate, p.grad.data)
+    # for p in rnn.parameters():
+    #     # 将参数的张量表示与参数的梯度乘以学习率的结果相加以此来更新参数
+    #     p.data.add_(-learning_rate, p.grad.data)
     # 返回结果和损失的值
+    optimizer1.step()
+
     return output, loss.item()
+optimizer_lstm = torch.optim.Adam(lstm.parameters(), lr = 0.001)
+def trainLSTM(catetory_tensor, line_tensor):
+    """
 
-# 与传统RNN相比多出细胞状态c
-
-def trainLSTM(category_tensor, line_tensor):
-    hidden, c = lstm.initHiddenAndC()
-    lstm.zero_grad()
+    :param catetory_tensor: 标签
+    :param line_tensor:
+    :return:
+    """
+    # 隐藏层初始化
+    h0, c = lstm.initHiddenAndC()
+    # 梯度清零
+    optimizer_lstm.zero_grad()
+    # 输入模型，得到结果
     for i in range(line_tensor.size()[0]):
-        # 返回output, hidden以及细胞状态c
-        output, hidden, c = lstm(line_tensor[i], hidden, c)
-    loss = criterion(output.squeeze(0), category_tensor)
+        output, hidden, c = lstm(line_tensor[i], h0, c)
+    # 打印下outpu的维度信息
+    # print("输出的维度是：",output.shape)
+    # 计算损失
+    loss = criterion(output.squeeze(0), catetory_tensor)
+    # 反向传播
     loss.backward()
+    # 梯度更新
+    # for p in lstm.parameters():
+    #     p.data.add_(-learning_rate, p.grad.data)
+    optimizer_lstm.step()
 
-    for p in lstm.parameters():
-        p.data.add_(-learning_rate, p.grad.data)
     return output, loss.item()
+optimizer_gru = torch.optim.Adam(gru.parameters(), lr = 0.005)
+def trainGRU(category_label, category_line):
+    """
 
-# 与传统RNN完全相同, 只不过名字改成了GRU
-
-def trainGRU(category_tensor, line_tensor):
+    :param category_label: 标签值
+    :param category_line:  输入的数据
+    :return:
+    """
+    # 初始化hidden
     hidden = gru.initHidden()
-    gru.zero_grad()
-    for i in range(line_tensor.size()[0]):
-        output, hidden= gru(line_tensor[i], hidden)
-    loss = criterion(output.squeeze(0), category_tensor)
-    loss.backward()
+    # 梯度清零
+    optimizer_gru.zero_grad()
+    # 获取输出值
+    for i in range(category_line.size()[0]):
+        output, hidden = gru(category_line[i], hidden)
 
-    for p in gru.parameters():
-        # print("/")
-        p.data.add_(-learning_rate, p.grad.data)
+    # 计算损失
+    # print(" GRU - output------------->%s,\n output-squeeze-------->%s"%(output, output.squeeze(0)))
+    loss = criterion(output.squeeze(0), category_label)
+    # 反向传播
+    loss.backward()
+    # 更新梯度
+    # for p in gru.parameters():
+    #     p.data.add_(-learning_rate, p.grad.data)
+    optimizer_gru.step()
+
     return output, loss.item()
 
 def timeSince(since):
-    "获得每次打印的训练耗时, since是训练开始时间"
-    # 获得当前时间
+    """
+    获得每次打印的训练耗时，since是训练开始时间
+    :param since:
+    :return:
+    """
     now = time.time()
-    # 获得时间差，就是训练耗时
+    # 获得时间差
     s = now - since
     # 将秒转化为分钟, 并取整
     m = math.floor(s / 60)
@@ -330,13 +341,50 @@ def timeSince(since):
     # 返回指定格式的耗时
     return '%dm %ds' % (m, s)
 
+# since = time.time() - 10*60
+#
+# period = timeSince(since)
+# print(period)
 
-# 设置训练迭代次数
-n_iters = 1000000
-# 设置结果的打印间隔
-print_every = 5000
-# 设置绘制损失曲线上的制图间隔
-plot_every = 10000
+
+# 构建训练过程的日志打印函数
+
+
+# def train(train_type_fn):
+#     """
+#     训练过程的日志打印函数，参数train_type_fn代表选择哪种模型训练函数
+#     :param train_type_fn:
+#     :return:
+#     """
+#     # 每个制图间隔损失保存列表
+#     all_losses = []
+#     # 获得训练开始时间戳
+#     start = time.time()
+#     current_loss = 0
+    # 初始间隔损失为0
+    # for iter in range(1, n_iters+1):
+    #     category, line, category_tensor, line_tensor = randomTrainingExample()
+    #     # 将训练数据和对应的张量表示传入到train函数中
+    #     output, loss = train_type_fn(category_tensor, line_tensor)
+    #     # print("训练输出为：",output)
+    #     # 计算制图间隔中的总损失
+    #     current_loss += loss
+    #     if iter % print_every ==0:
+    #         # 通过categoryFromOutput函数获得对应的类别和类别索引
+    #         guess, guess_i = categoryFromOutput(output)
+    #         # 然后和真是的类别category做比较，如果相同，打对号，不同，叉号
+    #         correct = '√' if guess == category else '×(%s)'%category
+    #         print('%d %d%% (%s) %.4f %s / %s %s' % (
+    #         iter, iter / n_iters * 100, timeSince(start), loss, line, guess, correct))
+    #
+    #     if iter % plot_every == 0:
+    #         # 将保存间隔中的平均损失到all_loss 列表中
+    #         all_losses.append(current_loss/plot_every)
+    #         # 间隔损失重置为0
+    #         current_loss = 0
+    #
+    #     # 返回对应的总损失列表和训练耗时
+    # return  all_losses, int(time.time() - start)
 
 def train(train_type_fn):
     """训练过程的日志打印函数, 参数train_type_fn代表选择哪种模型训练函数, 如trainRNN"""
@@ -358,10 +406,11 @@ def train(train_type_fn):
         if iter % print_every == 0:
             # 取该迭代步上的output通过categoryFromOutput函数获得对应的类别和类别索引
             guess, guess_i = categoryFromOutput(output)
+
             # 然后和真实的类别category做比较, 如果相同则打对号, 否则打叉号.
             correct = '✓' if guess == category else '✗ (%s)' % category
             # 打印迭代步, 迭代步百分比, 当前训练耗时, 损失, 该步预测的名字, 以及是否正确
-            # print('%d %d%% (%s) %.4f %s / %s %s' % (iter, iter / n_iters * 100, timeSince(start), loss, line, guess, correct))
+            print('%d %d%% (%s) %.4f %s / %s %s' % (iter, iter / n_iters * 100, timeSince(start), loss, line, guess, correct))
 
         # 如果迭代数能够整除制图间隔
         if iter % plot_every == 0:
@@ -370,19 +419,17 @@ def train(train_type_fn):
             # 间隔损失重置为0
             current_loss = 0
     # 返回对应的总损失列表和训练耗时
-    return all_losses, int(time.time() - start), train_type_fn
-
+    return all_losses, int(time.time() - start)
 def train_model():
-    # 调用train函数, 分别进行RNN, LSTM, GRU模型的训练
-    # 并返回各自的全部损失, 以及训练耗时用于制图
-    all_losses1, period1, rnn = train(trainRNN)
-    # all_losses2, period2, lstm = train(trainLSTM)
-    # all_losses3, period3, gru = train(trainGRU)
-    torch.save(rnn,'./ModelOfName/rnn-normal_softmax_lr0.01-64.pkl')
-    # torch.save(lstm,'./ModelOfName/lstm-normal.pkl')
-    # torch.save(gru,'./ModelOfName/gru-normal.pkl')
-    # # 绘制损失对比曲线, 训练耗时对比柱张图
-    # # 创建画布0
+    # 开始训练传统RNN，LSTM，GRU模型，并制作对比图
+    all_losses1, period1 = train(trainRNN)
+    torch.save(rnn,'./ModelOfName/rnn-adam.pkl')
+    # print('rnn_losses--------->', all_losses1)
+    # all_losses2, period2 = train(trainLSTM)
+    # torch.save(lstm,'./ModelOfName/lstm-sgd.pkl')
+    # all_losses3, period3 = train(trainGRU)
+    # plt.figure(figsize=(20,8))
+    # torch.save(gru,'./ModelOfName/gru-sdg.pkl')
     plt.figure(0)
     # 绘制损失对比曲线
     plt.plot(all_losses1, label="RNN")
@@ -394,13 +441,15 @@ def train_model():
     # 创建画布1
     # plt.figure(1)
     # # x_data=["RNN", "LSTM", "GRU"]
-    # x_data=["RNN"]
     # # y_data = [period1, period2, period3]
+    # x_data=["RNN"]
     # y_data = [period1]
     # # 绘制训练耗时对比柱状图
     # plt.bar(range(len(x_data)), y_data, tick_label=x_data)
     plt.show()
 
+
+# 构建评估函数
 def evaluateRNN(line_tensor):
     hidden = rnn.initHidden()
     for i in range(line_tensor.size()[0]):
@@ -411,7 +460,7 @@ def evaluateRNN(line_tensor):
 def evaluateLSTM(line_tensor):
     hidden ,c = lstm.initHiddenAndC()
     for i in range(line_tensor.size()[0]):
-        output, hidden, c = lstm(line_tensor[i], hidden, c)
+        output, hidden, c  = lstm(line_tensor[i], hidden, c)
     return output.squeeze(0)
 
 def evaluateGRU(line_tensor):
@@ -421,11 +470,10 @@ def evaluateGRU(line_tensor):
     return output.squeeze(0)
 
 
-
-
+# 构建预测函数
 # 构建预测函数
 def predictfileload():
-    filename = './data/test_100.csv'
+    filename = '../data/test_100.csv'
     data = readLines(filename)
     # print(data)
     category_list = []
@@ -455,7 +503,7 @@ def predict(evaluate_fn,input_line, n_predictions=3):
             # 取出索引并找到对应的类别
             category_index = topi[0][i].item()
             # 打印ouput的值, 和对应的类别
-            print('(%.2f) %s' % (value, all_categories[category_index]))
+            # print('(%.2f) %s' % (value, all_categories[category_index]))
             # 将结果装进predictions中
             predictions.append([value, all_categories[category_index]])
 
@@ -498,16 +546,17 @@ def predict_test(a):
     print('%s top1的准确率是：%s%%'%(a,correct_rate))
     print('%s top3的准确率是：%s%%'%(a,num_correct_3))
     return correct_rate, result_list
+
+def predict_value():
+    rnn = torch.load('./ModelOfName/rnn-adam.pkl')
+    rnn_result_list = predict_test('rnn')
+    # lstm = torch.load('./ModelOfName/lstm-sgd.pkl')
+    # lstm_result_list = predict_test('lstm')
+    # gru = torch.load('./ModelOfName/gru-sdg.pkl')
+    # gru_result_list = predict_test('gru')
 train_model()
-# rnn = torch.load('./ModelOfName/rnn-normal_softmax.pkl')
-corect_rate, rnn_result_list = predict_test('rnn')
-# lstm = torch.load('./ModelOfName/lstm-normal.pkl')
-# corect_rate, lstm_result_list = predict_test('lstm')
-# gru = torch.load('./ModelOfName/gru-normal.pkl')
-# corect_rate, gru_result_list = predict_test('gru')
-# # lstm_result_list = predict_test(evaluateLSTM)
+predict_value()
+
+# lstm_result_list = predict_test(evaluateLSTM)
 # gru_result_list = predict_test(evaluateGRU)
-
-
-
 

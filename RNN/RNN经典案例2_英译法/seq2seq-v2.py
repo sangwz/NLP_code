@@ -360,7 +360,7 @@ class AttnDecoderRNN(nn.Module):
 
 
 # 设定一下teacher_forcing的比率, 在多大的概率下使用这个策略进行训练
-teacher_forcing_ratio = 0.5
+teacher_forcing_ratio = 0.35
 
 def train(input_tensor, target_tensor, encoder, decoder, 
           encoder_optimizer, decoder_optimizer, criterion, max_length=MAX_LENGTH):
@@ -526,7 +526,7 @@ def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lear
     plt.savefig("./s2s_loss.png")
 
 
-hidden_size = 256
+hidden_size = 128
 encoder1 = EncoderRNN(input_lang.n_words, hidden_size).to(device)
 #
 attn_decoder1 = AttnDecoderRNN(hidden_size, output_lang.n_words, dropout_p=0.1).to(device)

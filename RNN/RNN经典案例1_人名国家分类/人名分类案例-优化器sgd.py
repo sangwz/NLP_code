@@ -10,16 +10,6 @@ import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
 
-
-# 设置训练迭代次数
-n_iters =500000
-# 设置结果的打印间隔
-print_every = 100000
-# 设置绘制损失曲线上的制图间隔
-plot_every = 50000
-# 定义隐层的最后一维尺寸大小
-n_hidden = 64
-
 all_letters = string.ascii_letters + ".,;"
 n_letters = len(all_letters)
 
@@ -31,7 +21,7 @@ def unicodeToAscii(s):
 
 
 # 构建一个从持久化文件中读取内容到内存的函数
-data_path = './data/names/'
+data_path = '../data/names/'
 def readLines(filename):
     # 打开指定的文件并读取所有内容，使用strip去除两侧的空白符，然后，以‘、n’进行切分
     lines = open(filename,encoding='utf-8').read().strip().split('\n')
@@ -146,7 +136,8 @@ class GRU(nn.Module):
 #因为是onehot编码, 输入张量最后一维的尺寸就是n_letters
 input_size = n_letters
 
-
+# 定义隐层的最后一维尺寸大小
+n_hidden = 128
 
 # 输出尺寸为语言类别总数n_categories
 output_size = n_categories
@@ -241,7 +232,7 @@ learning_rate = 0.001
 #         p.data.add_(-learning_rate, p.grad.data)
 #
 #     return output, loss.item()
-optimizer1 = torch.optim.Adam(rnn.parameters(), lr = 0.001)
+optimizer1 = torch.optim.SGD(rnn.parameters(), lr = 0.005)
 def trainRNN(category_tensor, line_tensor):
     """定义训练函数, 它的两个参数是category_tensor类别的张量表示, 相当于训练数据的标签,
        line_tensor名字的张量表示, 相当于对应训练数据"""
@@ -270,7 +261,7 @@ def trainRNN(category_tensor, line_tensor):
     optimizer1.step()
 
     return output, loss.item()
-optimizer_lstm = torch.optim.Adam(lstm.parameters(), lr = 0.001)
+optimizer_lstm = torch.optim.SGD(lstm.parameters(), lr = 0.005)
 def trainLSTM(catetory_tensor, line_tensor):
     """
 
@@ -297,7 +288,7 @@ def trainLSTM(catetory_tensor, line_tensor):
     optimizer_lstm.step()
 
     return output, loss.item()
-optimizer_gru = torch.optim.Adam(gru.parameters(), lr = 0.005)
+optimizer_gru = torch.optim.SGD(rnn.parameters(), lr = 0.005)
 def trainGRU(category_label, category_line):
     """
 
@@ -348,7 +339,12 @@ def timeSince(since):
 
 
 # 构建训练过程的日志打印函数
-
+# 设置训练迭代次数
+n_iters = 500000
+# 设置结果的打印间隔
+print_every = 5000
+# 设置绘制损失曲线上的制图间隔
+plot_every = 2000
 
 # def train(train_type_fn):
 #     """
@@ -356,11 +352,11 @@ def timeSince(since):
 #     :param train_type_fn:
 #     :return:
 #     """
-#     # 每个制图间隔损失保存列表
-#     all_losses = []
-#     # 获得训练开始时间戳
-#     start = time.time()
-#     current_loss = 0
+    # 每个制图间隔损失保存列表
+    # all_losses = []
+    # # 获得训练开始时间戳
+    # start = time.time()
+    # current_loss = 0
     # 初始间隔损失为0
     # for iter in range(1, n_iters+1):
     #     category, line, category_tensor, line_tensor = randomTrainingExample()
@@ -419,23 +415,23 @@ def train(train_type_fn):
             # 间隔损失重置为0
             current_loss = 0
     # 返回对应的总损失列表和训练耗时
-    return all_losses, int(time.time() - start)
+    return all_losses, int(time.time() - start), train_type_fn
 def train_model():
     # 开始训练传统RNN，LSTM，GRU模型，并制作对比图
-    all_losses1, period1 = train(trainRNN)
-    torch.save(rnn,'./ModelOfName/rnn-adam.pkl')
+    all_losses1, period1, rnn = train(trainRNN)
+    torch.save(rnn,'./ModelOfName/rnn-sgd.pkl')
     # print('rnn_losses--------->', all_losses1)
     # all_losses2, period2 = train(trainLSTM)
     # torch.save(lstm,'./ModelOfName/lstm-sgd.pkl')
     # all_losses3, period3 = train(trainGRU)
-    # plt.figure(figsize=(20,8))
+    # # plt.figure(figsize=(20,8))
     # torch.save(gru,'./ModelOfName/gru-sdg.pkl')
     plt.figure(0)
     # 绘制损失对比曲线
     plt.plot(all_losses1, label="RNN")
     # plt.plot(all_losses2, color="red", label="LSTM")
     # plt.plot(all_losses3, color="orange", label="GRU")
-    plt.legend(loc='upper left')
+    # plt.legend(loc='upper left')
 
 
     # 创建画布1
@@ -455,7 +451,7 @@ def evaluateRNN(line_tensor):
     for i in range(line_tensor.size()[0]):
         output, hidden = rnn(line_tensor[i], hidden)
 
-    return output.squeeze(0)
+    return output.squeeze[0]
 
 def evaluateLSTM(line_tensor):
     hidden ,c = lstm.initHiddenAndC()
@@ -473,7 +469,7 @@ def evaluateGRU(line_tensor):
 # 构建预测函数
 # 构建预测函数
 def predictfileload():
-    filename = './data/test_100.csv'
+    filename = '../data/test_100.csv'
     data = readLines(filename)
     # print(data)
     category_list = []
@@ -546,17 +542,11 @@ def predict_test(a):
     print('%s top1的准确率是：%s%%'%(a,correct_rate))
     print('%s top3的准确率是：%s%%'%(a,num_correct_3))
     return correct_rate, result_list
-
-def predict_value():
-    rnn = torch.load('./ModelOfName/rnn-adam.pkl')
-    rnn_result_list = predict_test('rnn')
-    # lstm = torch.load('./ModelOfName/lstm-sgd.pkl')
-    # lstm_result_list = predict_test('lstm')
-    # gru = torch.load('./ModelOfName/gru-sdg.pkl')
-    # gru_result_list = predict_test('gru')
-train_model()
-predict_value()
-
+rnn = torch.load('./ModelOfName/rnn-sgd.pkl')
+rnn_result_list = predict_test('rnn')
+# lstm = torch.load('./ModelOfName/lstm-sgd.pkl')
+# lstm_result_list = predict_test('lstm')
+# gru = torch.load('./ModelOfName/gru-sgd.pkl')
+# gru_result_list = predict_test('gru')
 # lstm_result_list = predict_test(evaluateLSTM)
 # gru_result_list = predict_test(evaluateGRU)
-

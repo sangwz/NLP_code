@@ -21,7 +21,7 @@ def unicodeToAscii(s):
 
 
 # 构建一个从持久化文件中读取内容到内存的函数
-data_path = './data/names/'
+data_path = '../data/names/'
 def readLines(filename):
     # 打开指定的文件并读取所有内容，使用strip去除两侧的空白符，然后，以‘、n’进行切分
     lines = open(filename,encoding='utf-8').read().strip().split('\n')

@@ -44,7 +44,7 @@ def unicodeToAscii(s):
 
 '''数据读取函数'''
 
-data_path = "./data/names/"
+data_path = "../data/names/"
 
 def readLines(filename):
     """从文件中读取每一行加载到内存中形成列表"""
@@ -425,7 +425,7 @@ def evaluateGRU(line_tensor):
 
 # 构建预测函数
 def predictfileload():
-    filename = './data/test_100.csv'
+    filename = '../data/test_100.csv'
     data = readLines(filename)
     # print(data)
     category_list = []

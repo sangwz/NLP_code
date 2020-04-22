@@ -39,7 +39,7 @@ def unicodeToAscii(s):
 # print(a)
 
 # 构建一个从持久化文件中读取内容到内存的函数
-data_path = './data/names/'
+data_path = '../data/names/'
 
 def readlines(filename):
     try:
