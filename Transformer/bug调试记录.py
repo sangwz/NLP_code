@@ -15,3 +15,11 @@ div_term = torch.exp(torch.arange(0., d_model, 2) * -(math.log(10000.0) / d_mode
 position = torch.arange(0, max_len).unsqueeze(1)
 # 修改，将0改为0.，浮点数
 position = torch.arange(0., max_len).unsqueeze(1)
+
+'''
+RuntimeError: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.FloatTensor instead (while checking arguments for embedding)
+'''
+
+'''
+Process finished with exit code -1073741676 (0xC0000094)
+'''

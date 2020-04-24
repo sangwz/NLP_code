@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="880afcbd-6378-4bca-a37b-aaea0ba7257f" name="Default Changelist" comment="添加课件源代码">
-      <change afterPath="$PROJECT_DIR$/Transformer/bug调试记录.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Transformer/transformer.py" afterDir="false" />
+    <list default="true" id="880afcbd-6378-4bca-a37b-aaea0ba7257f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Transformer/data/test_100.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transformer/lesson3_transformer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transformer/test_code/data_read_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transformer/test_code/transformer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transformer/transformer2次实现.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/NLP_code.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NLP_code.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/5.人名案例.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例1_人名国家分类/5.人名案例.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/bug调试总结文档.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/bug调试总结文档.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/s2s_loss.png" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/s2s_loss.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/seq2seq-v2.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/seq2seq-v2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/nametocountry_normal.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例1_人名国家分类/nametocountry_normal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/nametocountry_normal_softmax.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例1_人名国家分类/nametocountry_normal_softmax.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/人名分类案例-优化器sgd.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例1_人名国家分类/人名分类案例-优化器sgd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/人名分类案例-优化器迭代修改.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例1_人名国家分类/人名分类案例-优化器迭代修改.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/人名案例.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例1_人名国家分类/人名案例.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/人名案例bug调试.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例1_人名国家分类/人名案例bug调试.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RNN/训练脚本.py" beforeDir="false" afterPath="$PROJECT_DIR$/RNN/RNN经典案例1_人名国家分类/训练脚本.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/桑文征day02.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transformer/bug调试记录.py" beforeDir="false" afterPath="$PROJECT_DIR$/Transformer/bug调试记录.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transformer/transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Transformer/transformer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,27 +28,33 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1anfXpwjlTA7x65U8EBIo0RSSPS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/RNN/RNN经典案例2_英译法" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Transformer" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Git\NLP_code\Transformer" />
+      <recent name="D:\Git\NLP_code\Transformer\test_code" />
+      <recent name="D:\Git\NLP_code\RNN\RNN经典案例2_英译法" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Git\NLP_code\RNN\RNN经典案例1_人名国家分类" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Git\NLP_code\RNN\RNN经典案例2_英译法" />
-    </key>
   </component>
-  <component name="RunManager" selected="Python.transformer">
-    <configuration name="seq2seq-v2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.transformer (1)">
+    <configuration name="data_read_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="NLP_code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -62,12 +62,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/RNN/RNN经典案例2_英译法" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Transformer/test_code" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/seq2seq-v2.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Transformer/test_code/data_read_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -76,7 +76,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="seq2seq" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="lesson3_transformer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="NLP_code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -84,12 +84,56 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/RNN/RNN经典案例2_英译法" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Transformer" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RNN/RNN经典案例2_英译法/seq2seq.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Transformer/lesson3_transformer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="transformer (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="NLP_code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Transformer" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Transformer/transformer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="transformer (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="NLP_code" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Transformer/test_code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Transformer/test_code/transformer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -122,9 +166,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.transformer (1)" />
+        <item itemvalue="Python.lesson3_transformer" />
+        <item itemvalue="Python.data_read_test" />
+        <item itemvalue="Python.transformer (2)" />
         <item itemvalue="Python.transformer" />
-        <item itemvalue="Python.seq2seq-v2" />
-        <item itemvalue="Python.seq2seq" />
       </list>
     </recent_temporary>
   </component>
@@ -141,7 +187,8 @@
       <workItem from="1587376322775" duration="6716000" />
       <workItem from="1587428865197" duration="13015000" />
       <workItem from="1587513243922" duration="9007000" />
-      <workItem from="1587544379553" duration="8841000" />
+      <workItem from="1587544379553" duration="18362000" />
+      <workItem from="1587600865757" duration="25118000" />
     </task>
     <task id="LOCAL-00001" summary="代码修正">
       <created>1587376535386</created>
@@ -171,54 +218,95 @@
       <option name="project" value="LOCAL" />
       <updated>1587384862017</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="transformer 编码器部分代码实现">
+      <created>1587557082906</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1587557082906</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="代码修正" />
     <MESSAGE value="添加课件源代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加课件源代码" />
+    <MESSAGE value="transformer 编码器部分代码实现" />
+    <option name="LAST_COMMIT_MESSAGE" value="transformer 编码器部分代码实现" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="560" y="113" key="CommitChangelistDialog2" timestamp="1587384861479">
+    <state x="72" y="181" key="#Notifications" timestamp="1587635187470">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587384861479" />
+    <state x="72" y="181" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1587635187470" />
+    <state x="188" y="144" key="#transformer_(1)" timestamp="1587612471462">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="188" y="144" key="#transformer_(1)/0.0.1920.1040@0.0.1920.1040" timestamp="1587612471462" />
+    <state x="560" y="113" key="CommitChangelistDialog2" timestamp="1587557082135">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="560" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587557082135" />
     <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1587392658824">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587392658824" />
-    <state width="1877" height="275" key="GridCell.Tab.0.bottom" timestamp="1587557011381">
+    <state width="1877" height="356" key="GridCell.Tab.0.bottom" timestamp="1587709134750">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="275" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587557011381" />
-    <state width="1877" height="275" key="GridCell.Tab.0.center" timestamp="1587557011381">
+    <state width="1877" height="356" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587709134750" />
+    <state width="1877" height="356" key="GridCell.Tab.0.center" timestamp="1587709134750">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="275" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587557011381" />
-    <state width="1877" height="275" key="GridCell.Tab.0.left" timestamp="1587557011381">
+    <state width="1877" height="356" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587709134750" />
+    <state width="1877" height="356" key="GridCell.Tab.0.left" timestamp="1587709134750">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="275" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587557011381" />
-    <state width="1877" height="275" key="GridCell.Tab.0.right" timestamp="1587557011381">
+    <state width="1877" height="356" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587709134750" />
+    <state width="1877" height="356" key="GridCell.Tab.0.right" timestamp="1587709134750">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="275" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587557011381" />
+    <state width="1877" height="356" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587709134750" />
+    <state width="914" height="347" key="GridCell.Tab.1.bottom" timestamp="1587698244250">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="347" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587698244250" />
+    <state width="914" height="347" key="GridCell.Tab.1.center" timestamp="1587698244250">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="347" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587698244250" />
+    <state width="914" height="347" key="GridCell.Tab.1.left" timestamp="1587698244250">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="347" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587698244250" />
+    <state width="914" height="347" key="GridCell.Tab.1.right" timestamp="1587698244250">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="347" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587698244250" />
     <state x="316" y="323" key="SettingsEditor" timestamp="1587376371252">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="316" y="323" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1587376371252" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1587384867429">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1587557088127">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1587384867429" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1587557088127" />
+    <state x="1138" y="229" width="672" height="678" key="search.everywhere.popup" timestamp="1587633686491">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1138" y="229" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1587633686491" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/NLP_code$lesson3_transformer.coverage" NAME="lesson3_transformer Coverage Results" MODIFIED="1587708261600" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
+    <SUITE FILE_PATH="coverage/NLP_code$data_read_test.coverage" NAME="data_read_test Coverage Results" MODIFIED="1587653556204" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer/test_code" />
     <SUITE FILE_PATH="coverage/NLP_code$embedding.coverage" NAME="embedding层 Coverage Results" MODIFIED="1587556961827" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
+    <SUITE FILE_PATH="coverage/NLP_code$transformer__2_.coverage" NAME="transformer (2) Coverage Results" MODIFIED="1587652317001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer/test_code" />
     <SUITE FILE_PATH="coverage/NLP_code$seq2seq_v2.coverage" NAME="seq2seq-v2 Coverage Results" MODIFIED="1587385073997" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RNN/RNN经典案例2_英译法" />
+    <SUITE FILE_PATH="coverage/NLP_code$transformer__1_.coverage" NAME="transformer (1) Coverage Results" MODIFIED="1587709034701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
     <SUITE FILE_PATH="coverage/NLP_code$seq2seq.coverage" NAME="seq2seq Coverage Results" MODIFIED="1587381876957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RNN/RNN经典案例2_英译法" />
   </component>
 </project>

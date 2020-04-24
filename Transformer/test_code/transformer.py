@@ -48,8 +48,6 @@ print("embr:", embr)
 ========================2. 在embedding层后添加位置编码器类===================
 
 '''
-
-
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model, dropout, max_len=5000):
         """位置编码器类的初始化函数, 共有三个参数, 分别是d_model: 词嵌入维度,
@@ -100,11 +98,10 @@ class PositionalEncoding(nn.Module):
         # 在相加之前我们对pe做一些适配工作， 将这个三维张量的第二维也就是句子最大长度的那一维将切片到与输入的x的第二维相同即x.size(1)，
         # 因为我们默认max_len为5000一般来讲实在太大了，很难有一条句子包含5000个词汇，所以要进行与输入张量的适配.
         # 最后使用Variable进行封装，使其与x的样式相同，但是它是不需要进行梯度求解的，因此把requires_grad设置成false.
-        # print("位置编码的输入{}".format(x.size()))
-
+        print("位置编码的输入{}".format(x.size()))
         x = x + Variable(self.pe[:, :x.size(1)],
                          requires_grad=False)
-        # print("位置编码的输出{}".format(x.size()))
+        print("位置编码的输出{}".format(x.size()))
         # 最后使用self.dropout对象进行'丢弃'操作, 并返回结果.
         return self.dropout(x)
 
@@ -355,11 +352,11 @@ d_model = 512
 d_ff = 64
 dropout = 0.2
 x = mha_result
-# print("输入参数的维度是：",x.size())
+print("输入参数的维度是：",x.size())
 ff = PositionwiseFeedForward(d_model, d_ff, dropout)
 ff_result = ff(x)
-# print("全连接层的输出是：",ff_result)
-# print("全连接层的维度是：", ff_result.size())
+print("全连接层的输出是：",ff_result)
+print("全连接层的维度是：", ff_result.size())
 
 
 ''' -----------------------
@@ -764,10 +761,6 @@ class EncoderDecoder(nn.Module):
         :param target_mask:  目标掩码
         :return:
         """
-        # source = torch.LongTensor(source)
-        # target = torch.LongTensor(target)
-        # source_mask = torch.LongTensor(source_mask)
-        # target_mask = torch.LongTensor(target_mask)
         return self.decode(self.encode(source, source_mask), source_mask, target, target_mask)
 
     def encode(self, source, source_mask):
@@ -874,11 +867,16 @@ def make_model(source_vocab, target_vocab, N=6, d_model=512, d_ff=2048, head=8, 
 from pyitcast.transformer_utils import Batch
 
 '''
-1. 构建数据集生成器>>>>>>>>>>>>>>>>>>>>>>>>>
+1. 构建数据集生成器>>>>>>>>>>>>>>>>>>>>>>>>>>
 '''
 
+file_path = 'Transformer/data/test_100.csv'
 
-def data_generator(V, batch, num_batch):
+
+
+
+
+def test_data_generator(file_path, num_batch):
     """
     函数用于随机生成copy任务的数据，
     :param V:  随机生成的数字的最大值加1
@@ -886,14 +884,20 @@ def data_generator(V, batch, num_batch):
     :param num_batch:  一共输送num_batch次完成一轮
     :return:
     """
+    import numpy as np
+    file_path = '../data/test_100.csv'
+    data_read = open(file_path).readlines()
+    batch = 100//num_batch
+
+    data_read = np.array([i.strip().split(',') for i in data_read], dtype=np.int)
+
     for i in range(num_batch):
         # 在循环中使用np的random.randint方法随机生成[1, V)的整数,
         # 分布在(batch, 10)形状的矩阵中, 然后再把numpy形式转换称torch中的tensor.
-        data = torch.from_numpy(np.random.randint(1, V, size=(batch, 10), dtype=np.int64))
-        # print('数据生成---------------------', data)
-        # data = torch.randint(1, V, size=(batch, 10))
+        data = torch.from_numpy(data_read[(i - 1) * batch: i * batch, :])
+
         # 数据矩阵中第一列都为1
-        data[:, 0] = 1
+        # data[:, 0] = 1
 
         # 因为是copy任务，所有soruce与target是完全相同的，而且数据样本作用，变量不需要求梯度
         # 因此require_grad设置为False
@@ -902,6 +906,9 @@ def data_generator(V, batch, num_batch):
 
         # 使用batch对source和target浸信给对应批次的掩码张量生成，最后使用yiedl返回
         yield Batch(source, target)
+    # data = open(file_path).readlines()
+    # print(data)
+
 
 # ---------------------------------------------------------
 # 代码测试
@@ -914,7 +921,7 @@ batch = 20
 # 连续喂30次完成全部数据的遍历, 也就是1轮
 num_batch = 30
 res = data_generator(V, batch, num_batch)
-print('===========================', res)
+print(res)
 # ----------------------------------------------------------
 
 '''
@@ -952,7 +959,6 @@ loss = SimpleLossCompute(model.generator, criterion, model_optimizer)
 # 导入模型单轮训练工具包run_epoch, 该工具将对模型使用给定的损失函数计算方法进行单轮参数更新.
 # 并打印每轮参数更新的损失结果.
 from pyitcast.transformer_utils import run_epoch
-from pyitcast.transformer_utils import greedy_decode
 
 
 def run(model, loss, epochs=10):
@@ -971,20 +977,3 @@ def run(model, loss, epochs=10):
         # 评估时, batch_size是5
         run_epoch(data_generator(V, 8, 5), model, loss)
 
-    # 模型进入测试模式
-    # model.eval()
-    #
-    # # 假定的输入张量
-    # source = Variable(torch.Tensor([[1, 3, 2, 5, 4, 6, 7, 8, 9, 10]]))
-    #
-    # # 定义源数据掩码张量, 因为元素都是1, 在我们这里1代表不遮掩
-    # # 因此相当于对源数据没有任何遮掩.
-    # source_mask = Variable(torch.ones(1, 1, 10))
-    #
-    # # 最后将model, src, src_mask, 解码的最大长度限制max_len, 默认为10
-    # # 以及起始标志数字, 默认为1, 我们这里使用的也是1
-    # result = greedy_decode(model, source, source_mask, max_len=10, start_symbol=1)
-    # print(result)
-
-if __name__ == '__main__':
-    run(model, loss)
