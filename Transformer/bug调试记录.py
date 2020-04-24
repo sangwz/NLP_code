@@ -19,7 +19,13 @@ position = torch.arange(0., max_len).unsqueeze(1)
 '''
 RuntimeError: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.FloatTensor instead (while checking arguments for embedding)
 '''
+linux下没有此问题
 
 '''
 Process finished with exit code -1073741676 (0xC0000094)
+'''
+windows下运行出错，linux下没有出现此问题
+
+'''
+RuntimeError: bool value of Tensor with more than one value is ambiguous
 '''
