@@ -783,7 +783,7 @@ def test_data_load():
     # print(result)
     return result
 
-def run(model, loss, epochs=60):
+def run(model, loss, epochs=40):
     for epoch in range(epochs):
         # 首先进入训练模式, 所有的参数将会被更新
         model.train()
@@ -797,7 +797,7 @@ def run(model, loss, epochs=60):
     
     # 跳出for循环后, 代表模型训练结束, 进入评估模式
     model.eval()
-    torch.save(model, './transformer_1')
+    torch.save(model, './transformer_1.pkl')
     
     # 初始化一个输入张量
     source = Variable(torch.LongTensor([[1,3,2,5,4,6,7,8,9,10]]))
@@ -815,15 +815,15 @@ def run(model, loss, epochs=60):
         # print("真是结果",source_every,type(source_every))
         if torch.equal(result, source_every):
             count += 1
-        # count_in = 0
-        # for ind in range(10):
-        #
-        #     if torch.equal(result[ind],source_every[ind]):
-        #         count_in += 1
-        # ratio_correct_inner = count_in/10
-        # count_ratio += ratio_correct_inner
+        count_in = 0
+        for ind in range(10):
+
+            if torch.equal(result[0][ind],source_every[0][ind]):
+                count_in += 1
+        ratio_correct_inner = count_in/10
+        count_ratio += ratio_correct_inner
     print("整体准确率：",count/100)
-    # print("内部准确率：",count_ratio/100)
+    print("内部准确率：",count_ratio/100)
 
     return count/100
 

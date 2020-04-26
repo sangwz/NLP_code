@@ -313,7 +313,7 @@ mask = Variable(torch.zeros(8, 4, 4))
 # 调用---------
 mha = MultiHeadAttention(head, embedding_dim, dropout)
 mha_result = mha(query, key, value, mask)
-print(mha_result.size(), mha_result)
+# print(mha_result.size(), mha_result)
 
 # ---------------------------------------------------------------
 '''
@@ -396,8 +396,8 @@ eps = 1e-6
 x = ff_result
 ln = LayerNorm(features, eps)
 ln_result = ln(x)
-print(" 规范化层后的输出为：", ln_result)
-print("规范化层后的输出维度是：", ln_result.size())
+# print(" 规范化层后的输出为：", ln_result)
+# print("规范化层后的输出维度是：", ln_result.size())
 # ------------------------------------------
 
 
@@ -909,12 +909,12 @@ def data_generator(V, batch, num_batch):
 V = 11
 
 # 每次喂给模型20个数据进行参数更新
-batch = 20
+batch = 5
 
 # 连续喂30次完成全部数据的遍历, 也就是1轮
-num_batch = 30
-res = data_generator(V, batch, num_batch)
-print('===========================', res)
+num_batch = 20
+# res = data_generator(V, batch, num_batch)
+# print('===========================', res)
 # ----------------------------------------------------------
 
 '''
@@ -940,7 +940,7 @@ model = make_model(V, V, N=2)
 model_optimizer = get_std_opt(model)
 
 # 使用LabelSmoothing获得标签平滑对象
-criterion = LabelSmoothing(size=V, padding_idx=0, smoothing=0.0)
+criterion = LabelSmoothing(size=V, padding_idx=0, smoothing=0.6)
 
 # 使用SimpleLossCompute获得利用标签平滑结果的损失计算方法
 loss = SimpleLossCompute(model.generator, criterion, model_optimizer)
@@ -955,36 +955,93 @@ from pyitcast.transformer_utils import run_epoch
 from pyitcast.transformer_utils import greedy_decode
 
 
-def run(model, loss, epochs=10):
-    """模型训练函数, 共有三个参数, model代表将要进行训练的模型
-       loss代表使用的损失计算方法, epochs代表模型训练的轮数"""
+def test_data_load():
+    import numpy as np
 
+    file_path = './data/test_100.csv'
+    data = open(file_path).readlines()
+
+    result = torch.tensor([eval(i) for i in data], dtype=np.int)
+    # print(result)
+    return result
+
+
+
+def run(model, loss, epochs=50):
+    """模型训练函数, 共有三个参数, model代表将要进行训练的模型-
+       loss代表使用的损失计算方法, epochs代表模型训练的轮数"""
+    # 初始化一个输入张量
+    source = Variable(torch.LongTensor([[1, 3, 2, 5, 4, 6, 7, 8, 9, 10]]))
+    test_data = test_data_load()
+    # print(test_data)
+    count = 0
+    count_ratio = 0
     # 遍历轮数
     for epoch in range(epochs):
         # 模型使用训练模式, 所有参数将被更新
         model.train()
         # 训练时, batch_size是20
         run_epoch(data_generator(V, 8, 20), model, loss)
+        print("epoch是：",epoch)
+
 
         # 模型使用评估模式, 参数将不会变化
         model.eval()
         # 评估时, batch_size是5
         run_epoch(data_generator(V, 8, 5), model, loss)
+        for i in range(100):
+            # 初始化一个输入张量的掩码张量, 全1代表没有任何的遮掩
+            source_mask = Variable(torch.ones(1, 1, 10))
+            source_every = Variable(torch.tensor(test_data[i]).unsqueeze(0))
+            # 设定解码的最大长度max_len等于10, 起始数字的标志默认等于1
+            result = greedy_decode(model, source_every, source_mask, max_len=10, start_symbol=1)
+            # print("预测结果",result,type(result))
+            # print("真是结果",source_every,type(source_every))
+            if torch.equal(result, source_every):
+                count += 1
+            count_in = 0
+            for ind in range(10):
+
+                if torch.equal(result[0][ind],source_every[0][ind]):
+                    count_in += 1
+            ratio_correct_inner = count_in/10
+            count_ratio += ratio_correct_inner
+        print("整体准确率：", count / 100)
+        print("内部准确率：",count_ratio/100)
+        count = 0
+        count_ratio = 0
 
     # 模型进入测试模式
     # model.eval()
-    #
-    # # 假定的输入张量
-    # source = Variable(torch.Tensor([[1, 3, 2, 5, 4, 6, 7, 8, 9, 10]]))
-    #
-    # # 定义源数据掩码张量, 因为元素都是1, 在我们这里1代表不遮掩
-    # # 因此相当于对源数据没有任何遮掩.
-    # source_mask = Variable(torch.ones(1, 1, 10))
-    #
-    # # 最后将model, src, src_mask, 解码的最大长度限制max_len, 默认为10
-    # # 以及起始标志数字, 默认为1, 我们这里使用的也是1
-    # result = greedy_decode(model, source, source_mask, max_len=10, start_symbol=1)
-    # print(result)
+    torch.save(model, './transformer_1.pkl')
+
+    # 初始化一个输入张量
+    # source = Variable(torch.LongTensor([[1, 3, 2, 5, 4, 6, 7, 8, 9, 10]]))
+    # test_data = test_data_load()
+    # # print(test_data)
+    # count = 0
+    # count_ratio = 0
+    # for i in range(100):
+    #     # 初始化一个输入张量的掩码张量, 全1代表没有任何的遮掩
+    #     source_mask = Variable(torch.ones(1, 1, 10))
+    #     source_every = Variable(torch.tensor(test_data[i]).unsqueeze(0))
+    #     # 设定解码的最大长度max_len等于10, 起始数字的标志默认等于1
+    #     result = greedy_decode(model, source_every, source_mask, max_len=10, start_symbol=1)
+    #     # print("预测结果",result,type(result))
+    #     # print("真是结果",source_every,type(source_every))
+    #     if torch.equal(result, source_every):
+    #         count += 1
+    #     # count_in = 0
+    #     # for ind in range(10):
+    #     #
+    #     #     if torch.equal(result[0][ind],source_every[0][ind]):
+    #     #         count_in += 1
+    #     # ratio_correct_inner = count_in/10
+    #     # count_ratio += ratio_correct_inner
+    # print("整体准确率：", count / 100)
+    # # print("内部准确率：",count_ratio/100)
+
+
 
 if __name__ == '__main__':
     run(model, loss)

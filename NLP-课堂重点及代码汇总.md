@@ -504,7 +504,7 @@ writer.close()
 
 ## 5.3 RNN按照结构分类介绍
 
-![image-20200414200859777](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414200859777.png)
+![image-20200414200859777](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414200859777.png)
 
 
 
@@ -512,7 +512,7 @@ writer.close()
 
 内部计算公式：
 
-![image-20200414210431814](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414210431814.png)
+![image-20200414210431814](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414210431814.png)
 
 激活函数的作用是帮助调节流经网络的值，将数值压缩在-1和1之间
 
@@ -564,24 +564,24 @@ LSTM（Long Short-Term Memory），也称长短时记忆结构，传统RNN的变
 
 **能缓解梯度消失或爆炸现象**
 
-![image-20200414213741400](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414213741400.png)
+![image-20200414213741400](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414213741400.png)
 
 四个部分： 
 
 * 遗忘门
-  * ![image-20200414213809680](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414213809680.png)
+  * ![image-20200414213809680](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414213809680.png)
   * 限制上一层的细胞状态的输入信息量
   * sigmod激活函数
 * 输入门
-  * ![image-20200414220154545](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414220154545.png)
+  * ![image-20200414220154545](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414220154545.png)
 * 细胞状态
-  * ![image-20200414220555708](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414220555708.png)
+  * ![image-20200414220555708](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414220555708.png)
 * 输出门
-  * ![image-20200414220635045](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414220635045.png)
+  * ![image-20200414220635045](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414220635045.png)
 
 ### 5.3.3 Bi-LSTM结构
 
-![image-20200414220821814](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414220821814.png)
+![image-20200414220821814](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414220821814.png)
 
 LSTM结构正反各做一次运算，将结果拼接作为输出
 
@@ -612,9 +612,9 @@ torcn.nn.LSTM
 
 * 有效捕捉长序列之间的语义关联，缓解梯度消失或者梯度爆炸的现象
 
-![image-20200414230500669](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414230500669.png)
+![image-20200414230500669](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414230500669.png)
 
-* ![image-20200414230641919](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414230641919.png)
+* ![image-20200414230641919](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414230641919.png)
 
 **API：**
 
@@ -658,7 +658,7 @@ tensor([[[ 0.6578, -0.4226, -0.2129, -0.3785,  0.5070,  0.4338],
        grad_fn=<StackBackward>)
 ```
 
-![image-20200414231219046](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414231219046.png)
+![image-20200414231219046](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200414231219046.png)
 
 ## 5.4 注意力机制
 
@@ -707,7 +707,7 @@ FeedForward层即nn.Linear()层
 
 * transformer模型图
 
-  ![image-20200421162319543](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200421162319543.png)
+  ![image-20200421162319543](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200421162319543.png)
 
 * 总体架构可分为4个部分
 
@@ -861,7 +861,7 @@ class PositionalEncoding(nn.Module):
 
 ### 6.2.1 编码器组成，见6.1
 
-​	![image-20200421164104174](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200421164104174.png)
+​	![image-20200421164104174](/media/sangwz/Windows-SSD/\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200421164104174.png)
 
 **注意力机制要复习，熟悉**
 
@@ -898,11 +898,11 @@ def subsequent_mask(size):
 
 Transformer中使用的注意力计算规则是
 
-![image-20200421164639229](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200421164639229.png)
+![image-20200421164639229](/media/sangwz/Windows-SSD/\\\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200421164639229.png)
 
 代码实现的流程如下
 
-![image-20200421164714570](C:\Users\sang\AppData\Roaming\Typora\typora-user-images\image-20200421164714570.png)
+![image-20200421164714570](/media/sangwz/Windows-SSD/\\Users/sang/AppData/Roaming/Typora/typora-user-images/image-20200421164714570.png)
 
 ```python
 def attention(query, key, value, mask=None, dropout=None):
@@ -933,3 +933,41 @@ def attention(query, key, value, mask=None, dropout=None):
     return torch.matmul(p_attn, value), p_attn
 ```
 
+## 
+
+# 7. Fasttext
+
+应用：
+
+​	文本分类，训练词向量
+
+## 7.2 文本分类
+
+### 7.2.1文本分类：
+
+* 将文档分配给一个或多个类别。构建文本分类器i需要带标签的数据
+* 文本分类的种类：
+  * 二分类：好的坏的
+  * 单标签多分类，每条文本只能属于一个类别
+  * 多标签多分类
+    * 文本被分配到多个类别中。
+
+### 7.2.2
+
+**第一步，获取数据**
+
+第二步，数据集划分
+
+```
+$ head -n 12404 cooking.stockexchange.txt  > cooking.trian
+
+$ tail -n 3000 cooking.stockexchange.txt  > cooking.valid
+```
+
+第三步， 模型训练
+
+第四步， 数据预测
+
+**模型调优**
+
+cat cooking.stackexchange.txt | sed -e ""

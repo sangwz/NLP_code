@@ -1,3 +1,4 @@
+"""
 '''
     div_term = torch.exp(torch.arange(0, d_model, 2) * -(math.log(10000.0) / d_model))
 RuntimeError: exp_vml_cpu not implemented for 'Long'
@@ -29,3 +30,5 @@ windows下运行出错，linux下没有出现此问题
 '''
 RuntimeError: bool value of Tensor with more than one value is ambiguous
 '''
+
+"""
